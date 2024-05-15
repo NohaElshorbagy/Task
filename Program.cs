@@ -1,6 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
+using Task.Configurations;
 using Task.Models;
+using Task.Repositories.IRepos;
+using Task.Repositories.Repos;
 
 namespace Task
 {
@@ -18,6 +21,11 @@ namespace Task
 
 				options.UseSqlServer(connectionString)
 			);
+			//automapper 
+			builder.Services.AddAutoMapper(typeof(MappingConfiguration));
+
+			builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
+
 
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
