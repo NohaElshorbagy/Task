@@ -31,5 +31,38 @@ namespace Task.Controllers
 			}
 			return BadRequest("Something went wrong"); // Status code: 400
 		}
+		[HttpPut("{id}", Name = "UpdateCustomer")]
+		public async Task<IActionResult> UpdateCustomerAsync(int id, [FromBody] GetCustomerTabeDTO customerUpdate)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest("Invalid model state."); 
+			}
+
+			var updatedCustomer = await _CustomerRepo.UpdateCustomerAsync(id, customerUpdate);
+
+			if (updatedCustomer != null)
+			{
+				return Ok(updatedCustomer); 
+			}
+			else
+			{
+				return NotFound("Customer not found.");
+			}
+		}
+		[HttpPost("AddCustomer")]
+		public async Task<IActionResult> RegisterAsync([FromBody] GetCustomerTabeDTO model)
+		{
+
+
+			if (ModelState.IsValid)
+			{
+				var result = await _CustomerRepo.AddCustomerAsync(model);
+				if (result.IsSuccess)
+					return Ok(result); // Status Code: 200
+				return BadRequest(result);
+			}
+			return BadRequest("Some properties are not valid"); // Status code: 400
+		}
 	}
 }

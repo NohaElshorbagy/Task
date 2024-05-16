@@ -21,6 +21,18 @@ namespace Task
 
 				options.UseSqlServer(connectionString)
 			);
+
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy(name: "angularlocalhost",
+								  policy =>
+								  {
+									  policy.AllowAnyHeader();
+									  //policy.AllowAnyOrigin();
+									  policy.WithOrigins("http://localhost:4200"); //angular origin 
+									  policy.AllowAnyMethod();
+								  });
+			});
 			//automapper 
 			builder.Services.AddAutoMapper(typeof(MappingConfiguration));
 
@@ -39,6 +51,7 @@ namespace Task
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
+			app.UseCors("angularlocalhost");
 
 			app.UseHttpsRedirection();
 
