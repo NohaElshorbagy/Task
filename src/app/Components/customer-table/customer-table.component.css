@@ -1,0 +1,69 @@
+/* customer-table.component.css */
+
+.add-customer-btn {
+    display: inline-flex;
+    align-items: center;
+    background-color: #3f51b5; 
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .add-customer-btn mat-icon {
+    font-size: 1.5rem;
+  }
+  
+  .add-customer-btn:hover {
+    background-color: #303f9f; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
+  
+  .mat-icon {
+    font-size: 1.25rem;
+  }
+  
+  .table-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 0.5rem;
+  }
+  
+  .mat-elevation-z8 {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  .icon-button-no-background {
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+  .icon-button-no-background:hover {
+    background: rgba(0, 0, 0, 0.04); 
+  }
+  .icon-button-no-background:focus {
+    background: rgba(0, 0, 0, 0.12);
+  }
