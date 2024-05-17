@@ -1,0 +1,45 @@
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>Add New Call</h2>
+        </div>
+  
+        <div class="card-body">
+            <form (ngSubmit)="submitForm()" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <input type="text" id="description" name="description" class="form-control" [(ngModel)]="formData.description" required>
+                    <div class="invalid-feedback">Description is required.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="call_Address" class="form-label">Call Address:</label>
+                    <input type="text" id="call_Address" name="call_Address" class="form-control" [(ngModel)]="formData.call_Address" required>
+                    <div class="invalid-feedback">Call address is required.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date:</label>
+                    <input type="date" id="date" name="date" class="form-control" [(ngModel)]="formData.date" required>
+                    <div class="invalid-feedback">Date is required.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="employee" class="form-label">Employee:</label>
+                    <input type="text" id="employee" name="employee" class="form-control" [(ngModel)]="formData.employee" required>
+                    <div class="invalid-feedback">Employee is required.</div>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="isDone" name="isDone" class="form-check-input" [(ngModel)]="formData.isDone">
+                    <label for="isDone" class="form-check-label">Is Done</label>
+                </div>
+                <div class="mb-3">
+                    <label for="call_Type" class="form-label">Call Type:</label>
+                    <input type="text" id="call_Type" name="call_Type" class="form-control" [(ngModel)]="formData.call_Type" required>
+                    <div class="invalid-feedback">Call type is required.</div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

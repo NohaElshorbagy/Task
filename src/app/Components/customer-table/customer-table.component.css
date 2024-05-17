@@ -45,17 +45,9 @@
   .mat-icon {
     font-size: 1.25rem;
   }
+
   
-  .table-container {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: #fff;
-    border-radius: 0.5rem;
-  }
-  
-  .mat-elevation-z8 {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
+
   .icon-button-no-background {
     background: none;
     border: none;
@@ -67,3 +59,29 @@
   .icon-button-no-background:focus {
     background: rgba(0, 0, 0, 0.12);
   }
+  .search-row {
+    display: table-row;
+  }
+  .search-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; 
+  }
+  
+  .search-row mat-form-field {
+    flex: 1 1 100px;
+    max-width: 150px;
+  }
+  
+  
+  .table-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 0.5rem;
+  }
+  
+  .mat-elevation-z8 {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  

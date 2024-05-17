@@ -1,10 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Customer, CustomerService } from '../../Customer/customer.service';
+import {  CustomerService } from '../../Customer/customer.service';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
+import { MatSort } from '@angular/material/sort';
+import { CustomerCallService } from '../../Customer/customer-call.service';
+import { MatDialog } from '@angular/material/dialog';  // Import MatDialog
+import { Customer } from '../../Models/customer.interface';
 
 @Component({
   selector: 'app-customer-table',
@@ -15,13 +19,20 @@ export class CustomerTableComponent implements OnInit {
   dataSource: MatTableDataSource<Customer>;
   displayedColumns: string[] = ['name', 'address', 'district', 'email', 'gender', 'description', 'actions'];
   allColumns: string[] = ['name', 'address', 'district', 'email', 'gender', 'description'];
-  selectedColumns: string[] = this.allColumns.slice(); 
+  selectedColumns: string[] = this.allColumns.slice();
   searchEnabled: boolean = false;
+  columnFilters: { [key: string]: string } = {};
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private customerService: CustomerService, private router: Router) {
+  constructor(
+    private customerService: CustomerService,
+    private router: Router,
+    private customerCallService: CustomerCallService,
+    private dialog: MatDialog  // Inject MatDialog
+  ) {
     this.dataSource = new MatTableDataSource<Customer>();
   }
 
@@ -33,6 +44,10 @@ export class CustomerTableComponent implements OnInit {
     this.customerService.getCustomers().subscribe(customers => {
       this.dataSource.data = customers;
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+      // Apply initial filter settings
+      this.dataSource.filterPredicate = this.createFilter();
     });
   }
 
@@ -94,11 +109,21 @@ export class CustomerTableComponent implements OnInit {
     console.log('Search toggled, now:', this.searchEnabled);
   }
 
-  applyFilter(event: Event, column: string): void {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filterPredicate = (data: Customer, filter: string): boolean => {
-      return data[column].toLowerCase().includes(filter);
-    };
-    this.dataSource.filter = filterValue;
+  applyFilter(): void {
+    this.dataSource.filter = JSON.stringify(this.columnFilters);
   }
+
+  createFilter(): (data: Customer, filter: string) => boolean {
+    return (data: Customer, filter: string): boolean => {
+      const searchTerms = JSON.parse(filter);
+      return Object.keys(searchTerms).every(column => {
+        const searchValue = searchTerms[column];
+        return searchValue ? (data[column] || '').toLowerCase().includes(searchValue.toLowerCase()) : true;
+      });
+    };
+  }
+
+ showCustomerCalls(customerId: number): void {
+  this.router.navigate(['/customer', customerId, 'calls']);
+}
 }

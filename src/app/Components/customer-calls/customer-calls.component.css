@@ -1,0 +1,22 @@
+
+  .add-call-btn {
+    display: inline-flex;
+    align-items: center;
+    background-color: #3f51b5; 
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .add-call-btn mat-icon {
+    font-size: 1.5rem;
+  }
+  
+  .add-call-btn:hover {
+    background-color: #303f9f; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }

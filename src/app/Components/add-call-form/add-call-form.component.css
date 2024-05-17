@@ -1,0 +1,16 @@
+.container {
+    margin-top: 20px;
+}
+
+.card {
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-header h2 {
+    margin: 0;
+}
+
+.d-flex .btn {
+    margin-left: 10px;
+}

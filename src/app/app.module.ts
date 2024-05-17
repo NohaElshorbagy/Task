@@ -21,9 +21,8 @@ import { AppRoutingModule } from './routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FilterMenuComponent } from './Components/filter-menu/filter-menu.component';
-
-
+import { CustomerCallsComponent } from './Components/customer-calls/customer-calls.component';
+import { AddCallFormComponent } from './Components/add-call-form/add-call-form.component';
 
 
 @NgModule({
@@ -31,7 +30,9 @@ import { FilterMenuComponent } from './Components/filter-menu/filter-menu.compon
     AppComponent,
     CustomerTableComponent,
     AddCustomerComponent,
-    FilterMenuComponent
+    CustomerCallsComponent,
+    AddCallFormComponent
+
   ],
   imports: [
     BrowserModule,
@@ -57,9 +58,7 @@ import { FilterMenuComponent } from './Components/filter-menu/filter-menu.compon
   providers: [
     provideAnimationsAsync()
   ],
-  exports: [
-    FilterMenuComponent
-  ],
+ 
   bootstrap: [AppComponent]
 })
 export class AppModule { }
