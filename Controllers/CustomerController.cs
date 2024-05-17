@@ -24,12 +24,43 @@ namespace Task.Controllers
 			{
 				var result = await _CustomerRepo.GetAllCustomer();
 				if (result != null && result.Any())
-					return Ok(result); // Status Code: 200 with result in response body
+					return Ok(result);
 
-				return NotFound("No customers found."); // Status Code: 404 if no customers found
+				return NotFound("No customers found.");
 
 			}
-			return BadRequest("Something went wrong"); // Status code: 400
+			return BadRequest("Something went wrong");
+		}
+		[HttpGet("GetCustomerCalls")]
+		public async Task<IActionResult> GetCustomerCallAsync(int id)
+		{
+
+			if (ModelState.IsValid)
+			{
+				var result = await _CustomerRepo.GetAllCustomerCallAsync(id);
+				if (result != null && result.Any())
+					return Ok(result);
+
+				return NotFound("No calls for this customer found.");
+
+			}
+			return BadRequest("Something went wrong");
+		}
+
+		[HttpGet("{id}" , Name ="GetCustomerById")]
+		public async Task<IActionResult> GetCustomerByIdAsync(int id)
+		{
+
+			if (ModelState.IsValid)
+			{
+				var result = await _CustomerRepo.GetCustomerById(id);
+				if (result != null )
+					return Ok(result); 
+
+				return NotFound("No customers found.");
+
+			}
+			return BadRequest("Something went wrong");
 		}
 		[HttpPut("{id}", Name = "UpdateCustomer")]
 		public async Task<IActionResult> UpdateCustomerAsync(int id, [FromBody] GetCustomerTabeDTO customerUpdate)
@@ -51,7 +82,7 @@ namespace Task.Controllers
 			}
 		}
 		[HttpPost("AddCustomer")]
-		public async Task<IActionResult> RegisterAsync([FromBody] GetCustomerTabeDTO model)
+		public async Task<IActionResult> AddCustomerAsync([FromBody] GetCustomerTabeDTO model)
 		{
 
 
@@ -63,6 +94,35 @@ namespace Task.Controllers
 				return BadRequest(result);
 			}
 			return BadRequest("Some properties are not valid"); // Status code: 400
+		}
+
+		[HttpPost("AddCustomerCall")]
+		public async Task<IActionResult> AddCustomerCallAsync([FromBody] GetCustomerCallDTO model)
+		{
+
+
+			if (ModelState.IsValid)
+			{
+				var result = await _CustomerRepo.AddCustomerCallAsync(model);
+				if (result.IsSuccess)
+					return Ok(result); // Status Code: 200
+				return BadRequest(result);
+			}
+			return BadRequest("Some properties are not valid"); // Status code: 400
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteCustomerAsync(int id)
+		{
+			var result = await _CustomerRepo.DeleteCustomerAsync(id);
+			if (result)
+			{
+				return Ok("Customer deleted successfully."); 
+			}
+			else
+			{
+				return NotFound("Customer not found.");
+			}
 		}
 	}
 }

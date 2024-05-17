@@ -18,6 +18,8 @@
 		public string Salesman { get; set; }
 		public string Client_source { get; set; }
 		public string Customer_rating { get; set;}
+		public ICollection<CustomerCall> CustomerCalls { get; set; } = null;
+
 
 	}
 }

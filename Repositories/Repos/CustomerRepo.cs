@@ -2,12 +2,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using Task.DTOs;
 using Task.Models;
 using Task.Repositories.IRepos;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Task.Repositories.Repos
 {
@@ -56,6 +59,49 @@ namespace Task.Repositories.Repos
 			};
 		}
 
+		public async Task<UserManagerResponse> AddCustomerCallAsync([FromBody] GetCustomerCallDTO model)
+		{
+			if (model == null)
+				throw new NullReferenceException("No Calls Added");
+
+			// Retrieve the customer from the database based on the provided customer ID
+			var customer = await _db.CustomerDatas.FindAsync(model.CustomerId);
+			if (customer == null)
+				throw new NullReferenceException("Customer not found");
+
+			// Create a new customer call entity and populate it with the provided details
+			var call = new CustomerCall
+			{
+				Description = model.Description,
+				Call_Address = model.Call_Address,
+				Date = model.Date,
+				Employee = model.Employee,
+				IsDone = model.IsDone,
+				Call_Type = model.Call_Type,
+				CustomerData = customer
+			};
+
+			// Add the new call to the database and save changes
+			_db.CustomerCalls.Add(call);
+			await _db.SaveChangesAsync();
+
+			return new UserManagerResponse
+			{
+				Message = "Call Added successfully!",
+				IsSuccess = true,
+			};
+		}
+
+		public async Task<bool> DeleteCustomerAsync(int id)
+		{
+			var customerToDelete = await _db.CustomerDatas.FirstOrDefaultAsync(a => a.Id == id);
+			if (customerToDelete == null) return false;
+
+			_db.CustomerDatas.Remove(customerToDelete);
+			await _db.SaveChangesAsync();
+			return true;
+		}
+
 		public async Task<IEnumerable<GetCustomerTabeDTO>> GetAllCustomer()
 		{
 			var customers = await _db.CustomerDatas.ToListAsync();
@@ -81,6 +127,40 @@ namespace Task.Repositories.Repos
 			}).ToList();
 
 			return customerDtos;
+		}
+
+		public async Task<IEnumerable<GetCustomerCallDTO>> GetAllCustomerCallAsync(int id)
+		{
+			var customers = await _db.CustomerCalls
+									.Include(c => c.CustomerData) 
+									.Where(c => c.CustomerData.Id == id)
+									.ToListAsync();
+
+			var customerDtos = customers.Select(c => new GetCustomerCallDTO
+			{
+				Id = c.Id,
+				CustomerId = id ,
+				Description = c.Description,
+				Call_Address = c.Call_Address,
+				Date = c.Date,
+				Employee = c.Employee,
+				IsDone = c.IsDone,
+				Call_Type = c.Call_Type
+			}).ToList();
+
+			return customerDtos;
+		}
+
+
+		public async Task<CustomerData> GetCustomerById(int id)
+		{
+			CustomerData customer = await _db.CustomerDatas.FirstOrDefaultAsync(a => a.Id == id);
+			if (customer == null)
+			{
+				return null;
+			}
+
+			return customer;
 		}
 
 		public async Task<GetCustomerTabeDTO> UpdateCustomerAsync(int id, GetCustomerTabeDTO CustomerUpdate)
